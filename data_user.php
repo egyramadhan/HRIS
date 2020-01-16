@@ -106,7 +106,7 @@
               </div>
               <div class="card-body">
                 <!-- Date dd/mm/yyyy -->
-                <form action="aksi_admin.php?act=insert" method="GET">
+                <form action="aksi_admin.php?act=insert" method="POST">
                     <div class="form-group">
                       <label for="exampleFormControlInput1">Username</label>
                       <input type="text" class="form-control" name="username" placeholder="Username">
@@ -125,9 +125,9 @@
                 </form>
 
                 <?php
-                if(isset($_POST['simpan'])){
-                  echo "asdfs";
-                }
+                // if(isset($_POST['simpan'])){
+                //   print_r($_POST['username']);
+                // }
                 ?>
               </div>
              
