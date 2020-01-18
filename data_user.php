@@ -4,6 +4,11 @@
     $view = isset($_GET['view']) ? $_GET['view'] : null;
     switch($view){
       default:
+      if (isset($_GET['e']) && $_GET['e'] == 'sukses') {
+        echo "<center> proses berhasil ... </center>";
+      }elseif (isset($_GET['e']) && $_GET['e'] == 'gagal') {
+        echo "<center> proses gagal ... </center>";
+      }
   ?>
     <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -62,6 +67,7 @@
                             <a href ='aksi_admin.php?act=delete&id=$data[idadmin]' class='btn btn-danger btn-sm'>Delete</a>
                           </td>
                         </tr>";
+                        $no++;
                       }
                     ?>
                     
@@ -94,7 +100,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content"> 
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
         <div class="row">
@@ -106,14 +112,14 @@
               </div>
               <div class="card-body">
                 <!-- Date dd/mm/yyyy -->
-                <form action="aksi_admin.php?act=insert" method="GET">
+                <form action="aksi_admin.php?act=insert" method="POST">
                     <div class="form-group">
                       <label for="exampleFormControlInput1">Username</label>
                       <input type="text" class="form-control" name="username" placeholder="Username">
                     </div>
                     <div class="form-group">
                       <label for="exampleFormControlInput1">Password</label>
-                      <input type="text" class="form-control" name="password" placeholder="Password">
+                      <input type="password" class="form-control" name="password" placeholder="Password">
                     </div>
                     <div class="form-group">
                       <label for="exampleFormControlInput1">Nama lengkap</label>

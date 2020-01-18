@@ -7,7 +7,7 @@
     }
 
     // print_r($_GET['username']);
-    if (!isset($_GET['act'])) {
+    if (!empty($_GET['act'])) {
         if($_GET['act'] == 'insert'){
 
             $username = $_POST['username'];
@@ -33,7 +33,7 @@
             $password = md5($_POST['password']);
             $namalengkap = $_POST['namalengkap'];
 
-            if($username == '' || $namalengkap){
+            if($username == '' || $namalengkap == ''){
 
                 echo "Form anda belum lengkap !";
             }else {
