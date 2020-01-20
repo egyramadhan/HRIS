@@ -27,11 +27,15 @@ CREATE TABLE `golongan` (
   `tunjangan_anak` int(10) DEFAULT NULL,
   `uang_makan` int(10) DEFAULT NULL,
   `uang_lembur` int(10) DEFAULT NULL,
-  `akses` int(10) DEFAULT NULL,
+  `askes` int(10) DEFAULT NULL,
   PRIMARY KEY (`kode_golongan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `golongan` */
+
+insert  into `golongan`(`kode_golongan`,`nama_golongan`,`tunjangan_suami_istri`,`tunjangan_anak`,`uang_makan`,`uang_lembur`,`askes`) values 
+('G01','K1',1000000,500000,500000,10000,125000),
+('G02','K2',1250000,700000,500000,10000,125000);
 
 /*Table structure for table `jabatan` */
 
@@ -46,6 +50,12 @@ CREATE TABLE `jabatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `jabatan` */
+
+insert  into `jabatan`(`kode_jabatan`,`nama_jabatan`,`gapok`,`tunjangan_jabatan`) values 
+('H01','Project Manager',8500000,1500000),
+('H02','Lead Backend Engineer',5000000,1000000),
+('H03','Lead Frontend Engineer',4500000,1000000),
+('H04','Backend engineer',3500000,1000000);
 
 /*Table structure for table `master_gaji` */
 
@@ -75,15 +85,21 @@ CREATE TABLE `pegawai` (
   `nama_pegawai` varchar(40) DEFAULT NULL,
   `kode_jabatan` varchar(3) DEFAULT NULL,
   `kode_golongan` varchar(3) DEFAULT NULL,
-  `status` varchar(15) DEFAULT NULL,
+  `statuses` varchar(15) DEFAULT NULL,
   `jumlah_anak` int(2) DEFAULT NULL,
   PRIMARY KEY (`nip`),
+  KEY `kode_golongan` (`kode_golongan`),
   KEY `kode_jabatan` (`kode_jabatan`),
-  CONSTRAINT `pegawai_ibfk_1` FOREIGN KEY (`kode_jabatan`) REFERENCES `golongan` (`kode_golongan`),
-  CONSTRAINT `pegawai_ibfk_2` FOREIGN KEY (`kode_jabatan`) REFERENCES `jabatan` (`kode_jabatan`)
+  CONSTRAINT `pegawai_ibfk_3` FOREIGN KEY (`kode_golongan`) REFERENCES `golongan` (`kode_golongan`),
+  CONSTRAINT `pegawai_ibfk_4` FOREIGN KEY (`kode_jabatan`) REFERENCES `jabatan` (`kode_jabatan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `pegawai` */
+
+insert  into `pegawai`(`nip`,`nama_pegawai`,`kode_jabatan`,`kode_golongan`,`statuses`,`jumlah_anak`) values 
+('19002238','Firli','H03','G01','Belum Menikah',0),
+('19002328','Widi','H01','G01','Menikah',2),
+('19005566','Yoy','H02','G02','Belum Menikah',0);
 
 /*Table structure for table `users` */
 
@@ -95,12 +111,14 @@ CREATE TABLE `users` (
   `password` varchar(255) DEFAULT NULL,
   `namalengkap` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`idadmin`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `users` */
 
 insert  into `users`(`idadmin`,`username`,`password`,`namalengkap`) values 
-(1,'user','202cb962ac59075b964b07152d234b70','administrator');
+(1,'user','202cb962ac59075b964b07152d234b70','administrator'),
+(3,'admin','202cb962ac59075b964b07152d234b70','Jojoy'),
+(5,'asd','7815696ecbf1c96e6894b779456d330e','asddddd');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

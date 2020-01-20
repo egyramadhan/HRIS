@@ -19,7 +19,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Jabatan</h1>
+            <h1>Data Golongan</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -36,33 +36,37 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <a class="btn btn-primary btn-sm" href="data_jabatan.php?view=tambah" style="margin-bottom : 5px;">Tambah Data</a>
+                <a class="btn btn-primary btn-sm" href="data_golongan.php?view=tambah" style="margin-bottom : 5px;">Tambah Data</a>
                 <table class="table table-bordered">
                   <thead>                  
                     <tr>
                       <th style="width: 10px">No</th>
-                      <th>Kode Jabatan</th>
-                      <th>Nama Jabatan</th>
-                      <th>Gaji Pokok</th>
-                      <th>Tunjangan Jabatan</th>
+                      <th>Kode Golongan</th>
+                      <th>Tunjangan Keluarga</th>
+                      <th>Tunjangan Anak</th>
+                      <th>Uang Makan</th>
+                      <th>Uang lembur</th>
+                      <th>Ansuransi Kesehatan</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
                   <?php
-                        $sql = mysqli_query($konek, "SELECT * FROM jabatan ORDER BY kode_jabatan ASC");
+                        $sql = mysqli_query($konek, "SELECT * FROM golongan ORDER BY kode_golongan ASC");
                         $no = 1;
 
                         while ($d = mysqli_fetch_array($sql)) {
                             echo "
                             <tr>
                                 <td align='center'>$no</td>
-                                <td>$d[kode_jabatan]</td>
-                                <td>$d[nama_jabatan]</td>
-                                <td>$d[gapok]</td>
-                                <td>$d[tunjangan_jabatan]</td>
-                                <td><a class='btn btn-warning btn-sm' href ='data_jabatan.php?view=edit&id=$d[kode_jabatan]'>Edit</a>
-                                    <a class='btn btn-danger btn-sm' href ='aksi_jabatan.php?act=del&id=$d[kode_jabatan]'>Delete</a>
+                                <td>$d[kode_golongan]</td>
+                                <td>$d[nama_golongan]</td>
+                                <td>$d[tunjangan_suami_istri]</td>
+                                <td>$d[tunjangan_anak]</td>
+                                <td>$d[uang_makan]</td>
+                                <td>$d[uang_lembur]</td>
+                                <td><a class='btn btn-warning btn-sm' href ='data_golongan.php?view=edit&id=$d[kode_golongan]'>Edit</a>
+                                    <a class='btn btn-danger btn-sm' href ='aksi_golongan.php?act=del&id=$d[kode_golongan]'>Delete</a>
                                 </td>
                             </tr>
                             ";
@@ -84,13 +88,13 @@
             <?php
         break;
             case 'tambah':
-               $simbol = 'H';
-               $query  = mysqli_query($konek, "SELECT max(kode_jabatan) AS last FROM jabatan WHERE kode_jabatan LIKE '$simbol%'");
+               $simbol = 'G';
+               $query  = mysqli_query($konek, "SELECT max(kode_golongan) AS last FROM golongan WHERE kode_golongan LIKE '$simbol%'");
                $data   = mysqli_fetch_array($query);
                
-               $kodejabatan = $data['last'];
-               $nomorjabatan = substr($kodejabatan,1,2);
-               $nextnomor   = $nomorjabatan + 1;
+               $kodegolongan = $data['last'];
+               $nomorgolongan = substr($kodegolongan,1,2);
+               $nextnomor   = $nomorgolongan + 1;
                $nextkode    = $simbol.sprintf('0%s',$nextnomor);
             ?>
             <?php
@@ -121,26 +125,38 @@
                             </div>
                             <div class="card-body">
                                 <!-- Date dd/mm/yyyy -->
-                                <form action="aksi_jabatan.php?act=insert" method="POST">
+                                <form action="aksi_golongan.php?act=insert" method="POST">
                                     <div class="form-group">
-                                    <label for="exampleFormControlInput1">Kode jabatan</label>
-                                    <input type="text" class="form-control" name="kodejabatan" value="<?php echo $nextkode; ?>" readonly>
+                                    <label for="exampleFormControlInput1">Kode Golongan</label>
+                                    <input type="text" class="form-control" name="kodegolongan" value="<?php echo $nextkode; ?>" readonly>
                                     </div>
                                     <div class="form-group">
-                                    <label for="exampleFormControlInput1">Nama Jabatan</label>
-                                    <input type="text" class="form-control" name="namajabatan" required>
+                                    <label for="exampleFormControlInput1">Nama Golongan</label>
+                                    <input type="text" class="form-control" name="namagolongan" required>
                                     </div>
                                     <div class="form-group">
-                                    <label for="exampleFormControlInput1">Gaji Pokok</label>
-                                    <input type="number" class="form-control" name="gajipokok" required>
+                                    <label for="exampleFormControlInput1">Tunjangan Keluarga</label>
+                                    <input type="number" class="form-control" name="tunjangankeluarga" required>
                                     </div>
                                     <div class="form-group">
-                                    <label for="exampleFormControlInput1">Tunjangan Jabatan</label>
-                                    <input type="number" class="form-control" name="tunjanganjabatan" required>
+                                    <label for="exampleFormControlInput1">Tunjangan Anak</label>
+                                    <input type="number" class="form-control" name="tunjangananak" required>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="exampleFormControlInput1">Uang Makan</label>
+                                    <input type="number" class="form-control" name="uangmakan" required>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="exampleFormControlInput1">Uang Lembur</label>
+                                    <input type="number" class="form-control" name="uanglembur" required>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="exampleFormControlInput1">Ansuransi Kesehatan</label>
+                                    <input type="number" class="form-control" name="askes" required>
                                     </div>
                                     
                                     <input type="submit" class="btn btn-primary btn-sm" value="Simpan">
-                                    <a href="data_jabatan.php" class="btn btn-danger btn-sm">Batal</a>
+                                    <a href="data_golongan.php" class="btn btn-danger btn-sm">Batal</a>
                                 </form>
 
                                 <?php
@@ -165,7 +181,7 @@
             <?php
         break;
             case 'edit':
-                $sqlEdit = mysqli_query($konek, "SELECT * FROM jabatan WHERE kode_jabatan = '$_GET[id]'");
+                $sqlEdit = mysqli_query($konek, "SELECT * FROM golongan WHERE kode_golongan = '$_GET[id]'");
                 $e = mysqli_fetch_array($sqlEdit);
             ?>
                 <div class="content-wrapper">
@@ -191,33 +207,39 @@
                             </div>
                             <div class="card-body">
                                 <!-- Date dd/mm/yyyy -->
-                                <form action="aksi_jabatan.php?act=update" method="POST">
+                                <form action="aksi_golongan.php?act=update" method="POST">
                                     <div class="form-group">
                                     <label for="exampleFormControlInput1">Kode jabatan</label>
-                                    <input type="text" class="form-control" name="kodejabatan" value="<?php echo $e['kode_jabatan']; ?>" readonly>
+                                    <input type="text" class="form-control" name="kodegolongan" value="<?php echo $e['kode_golongan']; ?>" readonly>
                                     </div>
                                     <div class="form-group">
-                                    <label for="exampleFormControlInput1">Nama Jabatan</label>
-                                    <input type="text" class="form-control" name="namajabatan" value="<?php echo $e['nama_jabatan']; ?>">
+                                    <label for="exampleFormControlInput1">Nama golongan</label>
+                                    <input type="text" class="form-control" name="namagolongan" value="<?php echo $e['nama_golongan']; ?>">
                                     </div>
                                     <div class="form-group">
-                                    <label for="exampleFormControlInput1">Gaji Pokok</label>
-                                    <input type="number" class="form-control" name="gajipokok" value="<?php echo $e['gapok']; ?>">
+                                    <label for="exampleFormControlInput1">Tunjangan Keluarga</label>
+                                    <input type="number" class="form-control" name="tunjangankeluarga" value="<?php echo $e['tunjangan_suami_istri']; ?>">
                                     </div>
                                     <div class="form-group">
-                                    <label for="exampleFormControlInput1">Tunjangan Jabatan</label>
-                                    <input type="number" class="form-control" name="tunjanganjabatan" value="<?php echo $e['tunjangan_jabatan']; ?>">
+                                    <label for="exampleFormControlInput1">Tunjangan Anak</label>
+                                    <input type="number" class="form-control" name="tunjangananak" value="<?php echo $e['tunjangan_anak']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="exampleFormControlInput1">Uang Makan</label>
+                                    <input type="number" class="form-control" name="uangmakan" value="<?php echo $e['uang_makan']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="exampleFormControlInput1">Uang Lembur</label>
+                                    <input type="number" class="form-control" name="uanglembur" value="<?php echo $e['uang_lembur']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="exampleFormControlInput1">Ansuransi Kesehatan</label>
+                                    <input type="number" class="form-control" name="askes" value="<?php echo $e['askes']; ?>">
                                     </div>
                                     
                                     <input type="submit" class="btn btn-primary btn-sm" value="update data">
-                                    <a href="data_jabatan.php" class="btn btn-danger btn-sm">Batal</a>
+                                    <a href="data_golongan.php" class="btn btn-danger btn-sm">Batal</a>
                                 </form>
-
-                                <?php
-                                if(isset($_POST['simpan'])){
-                                echo "asdfs";
-                                }
-                                ?>
                             </div>
                             
                             <!-- /.card-body -->
