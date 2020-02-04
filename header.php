@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- JQVMap -->
   <link rel="stylesheet" href="assets/plugins/jqvmap/jqvmap.min.css">
   <!-- Theme style -->

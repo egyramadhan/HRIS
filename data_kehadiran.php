@@ -5,312 +5,184 @@
         switch ($view) {
             default:
             ?>
-            <?php
-              if (isset($_GET['e']) && $_GET['e'] == 'sukses') {
-                 echo "<center> proses berhasil ... </center>";
-              }elseif (isset($_GET['e']) && $_GET['e'] == 'gagal') {
-                echo "<center> proses gagal ... </center>";
-              }
-            ?>
-                <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Data Pegawai</h1>
-                    </div>
-                    </div>
-                </div><!-- /.container-fluid -->
-                </section>
+    <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Kehadiran Karyawan</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
 
-                <!-- Main content -->
-                <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">List Data</h3>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Data Kehadiran Karyawan</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form class="form-horizontal" method="get" action="">
+                <div class="form-group">
+                   
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label class="col-sm-1 col-form-label">Bulan</label>
+                        <div class="col-sm-2">
+                            <select name="bulan" class="form-control">
+                                <option value="">-- Pilih --</option>
+                                <option value="01">Januari</option>
+                                <option value="02">Februari</option>
+                                <option value="03">Maret</option>
+                                <option value="04">April</option>
+                                <option value="05">Mei</option>
+                                <option value="06">Juni</option>
+                                <option value="07">Juli</option>
+                                <option value="08">Agustus</option>
+                                <option value="09">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <a class="btn btn-primary btn-sm" href="data_pegawai.php?view=tambah" style="margin-bottom : 5px;">Tambah Data</a>
-                            <table class="table table-bordered">
-                            <thead>                  
-                                <tr>
-                                <th style="width: 10px">No</th>
-                                <th>NIP</th>
-                                <th>Nama Pegawai</th>
-                                <th>Jabatan</th>
-                                <th>Golongan</th>
-                                <th>Status</th>
-                                <th>Jumlah Anak</th>
-                                <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                                    $sql = mysqli_query($konek, "SELECT pegawai.*, jabatan.nama_jabatan, golongan.nama_golongan
-                                                        FROM pegawai
-                                                        INNER JOIN jabatan ON pegawai.kode_jabatan = jabatan.kode_jabatan
-                                                        INNER JOIN golongan ON pegawai.kode_golongan = golongan.kode_golongan
-                                                        ORDER BY pegawai.nama_pegawai ASC");
-                                    $no = 1;
-
-                                    while ($d = mysqli_fetch_array($sql)) {
-                                        echo "
-                                        <tr>
-                                            <td align='center'>$no</td>
-                                            <td>$d[nip]</td>
-                                            <td>$d[nama_pegawai]</td>
-                                            <td>$d[nama_jabatan]</td>
-                                            <td>$d[nama_golongan]</td>
-                                            <td>$d[statuses]</td>
-                                            <td>$d[jumlah_anak]</td>
-                                            <td><a class='btn btn-warning btn-sm' href ='data_pegawai.php?view=edit&id=$d[nip]'>Edit</a>
-                                                <a class='btn btn-danger btn-sm' href ='aksi_pegawai.php?act=del&id=$d[nip]'>Delete</a>
-                                            </td>
-                                        </tr>
-                                        ";
-                                        $no++;
+                    <label class="col-sm-1 col-form-label">Tahun</label>
+                        <div class="col-sm-2">
+                            <select name="tahun" class="form-control">
+                                <option value="">-- Pilih --</option>
+                                <?php
+                                    $y = date('Y');
+                                    for ($i = 2019;$i<$y+1;$i++ ){
+                                        echo "<option value='$i'>$i</option>";
                                     }
-                                    
                                 ?>
-                            </tbody>
+                            </select>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="submit" class="btn btn-primary">Tampilkan</button>
+                        </div>
+                        <a href="data_kehadiran.php?view=tambah" class="btn btn-success">Input Kehadiran Karyawan</a>
+                    </div>
+                </div>
+                </div>
+              </form>
+                    <?php
+                        if((isset($_GET['bulan']) && $_GET['bulan'] != '') && (isset($_GET['tahun']) && $_GET['tahun'] != '')){
+                            $bulan = $_GET['bulan'];
+                            $tahun = $_GET['tahun'];
+                            $bulantahun = $bulan.$tahun;
+                        }else {
+                            $bulan = date('M');
+                            $tahun = date('Y');
+                            $bulantahun = $bulan.$tahun;
+                        }
+                    ?>
+                    <div class="alert alert-info">
+                        <strong>Bulan: <?php echo $bulan; ?>, Tahun: <?php echo $tahun; ?></strong>
+                    </div>
+                    <!-- Main content -->
+                    <section class="content">
+                    <div class="row">
+                        <div class="col-12">
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                <th>No</th>
+                                <th>NIP</th>
+                                <th>Nama Karyawan</th>
+                                <th>Jabatan</th>
+                                <th>Masuk</th>
+                                <th>Izin</th>
+                                <th>Alpha</th>
+                                <th>Lembur</th>
+                                <th>Potongan</th>
+                                </tr>
+                                <?php
+                                    $sql = mysqli_query($konek, "SELECT master_gaji.*, pegawai.nama_pegawai, pegawai.kode_jabatan,
+                                        jabatan.nama_jabatan
+                                        FROM master_gaji
+                                        INNER JOIN pegawai ON master_gaji.nip = pegawai.nip
+                                        INNER JOIN jabatan ON pegawai.kode_jabatan = jabatan.kode_jabatan
+                                        WHERE master_gaji.bulan = $bulantahun
+                                        ORDER BY pegawai.nip ASC");
+                                    
+                                    $no = 1;
+                                    while ($d = mysqli_fetch_array($sql)) {
+                                        echo "<tr>
+                                                <td>$no</td>
+                                                <td>$d[nip]</td>
+                                                <td>$d[nama_pegawai]</td>
+                                                <td>$d[nama_jabatan]</td>
+                                                <td>$d[masuk]</td>
+                                                <td>$d[izin]</td>
+                                                <td>$d[alpha]</td>
+                                                <td>$d[lembur]</td>
+                                                <td>$d[potongan]</td>
+                                            </tr>";
+                                            $no++;
+                                    }
+                                    if (mysqli_num_rows($sql) > 0){
+                                        echo "<tr>
+                                            <td colspan='9' text-align='center'>
+                                                <a href class='btn btn-warning' = 'data_kehadiran.php?view=edit&bulan=$bulan&$tahun'>Edit Data </a>
+                                            </td>
+                                        </tr>";
+                                    }else {
+                                            echo "<tr>
+                                            <td colspan='9' text-align='center'>
+                                                Tidak ada data dibulan dan tahun yang anda pilih !!
+                                            </td>
+                                        </tr>";
+                                    }
+                                ?>
+                            
                             </table>
+                            </div>
+                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card-body -->
                         </div>
+                        <!-- /.col -->
                     </div>
-                    </div>
-                </div><!-- /.container-fluid -->
-                </section>
-                <!-- /.content -->
+                    <!-- /.row -->
+                    </section>
+    <!-- /.content -->
             </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col (left) -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script>
+         $(document).ready(function() {
+            $('#example2').DataTable();
+        });
+    </script>
+  </div>
             <?php
         break;
             case 'tambah':
                
             ?>
             <?php
-              if (isset($_GET['e']) && $_GET['e'] == 'bl') {
-                 echo "<center> data belum lengkap ... </center>";
-              }
-            ?>
-                <div class="content-wrapper">
-                    <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1></h1>
-                        </div>
-                        </div>
-                    </div>
-                    </section>
-                    <!-- Main content -->
-                    <section class="content"> 
-                    <div class="container-fluid">
-                        <!-- SELECT2 EXAMPLE -->
-                        <div class="row">
-                        <div class="col-md-12">
-
-                            <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Input Data</h3>
-                            </div>
-                            <div class="card-body">
-                                <!-- Date dd/mm/yyyy -->
-                                <form action="aksi_pegawai.php?act=insert" method="POST">
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">NIP</label>
-                                    <input type="number" class="form-control" name="nip" required>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Nama Pegawai</label>
-                                    <input type="text" class="form-control" name="namapegawai" required>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Jabatan</label>
-                                        <select name="jabatan" class="form-control">
-                                            <option value="">--Pilih--</option>
-                                            <?php
-                                                $sqljabatan = mysqli_query($konek, "SELECT * FROM jabatan ORDER BY kode_jabatan ASC");
-                                                while ($j = mysqli_fetch_array($sqljabatan)) {
-                                                    echo "<option value='$j[kode_jabatan]'>$j[kode_jabatan] - $j[nama_jabatan]</option>";
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Golongan</label>
-                                        <select name="golongan" class="form-control">
-                                            <option value="">--Pilih--</option>
-                                            <?php
-                                                $sqljabatan = mysqli_query($konek, "SELECT * FROM golongan ORDER BY kode_golongan ASC");
-                                                while ($j = mysqli_fetch_array($sqljabatan)) {
-                                                    echo "<option value='$j[kode_golongan]'>$j[kode_golongan] - $j[nama_golongan]</option>";
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Status</label>
-                                        <select name="status" id="status" class="form-control" onChange="autoAnak()">
-                                                <option value="">--Pilih--</option>
-                                                <option value="Menikah">Menikah</option>
-                                                <option value="Belum Menikah">Belum Menikah</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Jumlah Anak</label>
-                                    <input type="number" class="form-control" name="jumlahanak" id="jumlahanak">
-                                    </div>
-                                    
-                                    <input type="submit" class="btn btn-primary btn-sm" value="Simpan">
-                                    <a href="data_pegawai.php" class="btn btn-danger btn-sm">Batal</a>
-                                </form>
-
-                                <script type = "text/javascript">
-                                    function autoAnak() {
-                                        var status = $('#status').val();
-                                            if (status == 'Belum Menikah'){
-                                                $('#jumlahanak').val(0);
-                                                $('#jumlahanak').prop('readonly', true);
-                                            }else{
-                                                $('#jumlahanak').val();
-                                                $('#jumlahanak').prop('readonly', false);
-                                            }
-                                    }
-                                </script>
-
-                            </div>
-                            
-                            <!-- /.card-body -->
-                            </div>
-
-                        </div>
-                        
-                        </div>
-                        <!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                    </section>
-                    <!-- /.content -->
-                </div>
-                
-            <?php
         break;
             case 'edit':
-                $sqlEdit = mysqli_query($konek, "SELECT * FROM pegawai WHERE nip = '$_GET[id]'");
-                $e = mysqli_fetch_array($sqlEdit);
-                // var_dump($e);
             ?>
-                <div class="content-wrapper">
-                    <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1></h1>
-                        </div>
-                        </div>
-                    </div>
-                    </section>
-                    <!-- Main content -->
-                    <section class="content"> 
-                    <div class="container-fluid">
-                        <!-- SELECT2 EXAMPLE -->
-                        <div class="row">
-                        <div class="col-md-12">
-
-                            <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Edit Data</h3>
-                            </div>
-                            <div class="card-body">
-                                <!-- Date dd/mm/yyyy -->
-                                <form action="aksi_pegawai.php?act=update" method="POST">
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">NIP</label>
-                                    <input type="number" class="form-control" name="nip" value="<?php echo $e['nip']; ?>" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Nama Pegawai</label>
-                                    <input type="text" class="form-control" name="namapegawai" value="<?php echo $e['nama_pegawai']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Jabatan</label>
-                                        <select name="jabatan" class="form-control">
-                                            <option value="">--Pilih--</option>
-                                            <?php
-                                                $sqljabatan = mysqli_query($konek, "SELECT * FROM jabatan ORDER BY kode_jabatan ASC");
-                                                while ($j = mysqli_fetch_array($sqljabatan)) {
-
-                                                    $selected = ($j['kode_jabatan'] == $e['kode_jabatan']) ? 'selected="selected"' : "";
-
-                                                    echo "<option value='$j[kode_jabatan]' $selected>$j[kode_jabatan] - $j[nama_jabatan]</option>";
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Golongan</label>
-                                        <select name="golongan" class="form-control">
-                                            <option value="">--Pilih--</option>
-                                            <?php
-                                                $sqljabatan = mysqli_query($konek, "SELECT * FROM golongan ORDER BY kode_golongan ASC");
-                                                while ($j = mysqli_fetch_array($sqljabatan)) {
-
-                                                    $selected = ($j['kode_golongan'] == $e['kode_golongan']) ? 'selected="selected"' : "";
-
-                                                    echo "<option value='$j[kode_golongan]' $selected>$j[kode_golongan] - $j[nama_golongan]</option>";
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Status</label>
-                                        <select name="status" class="form-control" id = "status" onChange="autoAnak()">
-                                                <option value="<?php echo $e['statuses']; ?>"selected><?php echo $e['statuses']; ?></option>
-                                                <option value="Menikah">Menikah</option>
-                                                <option value="Belum Menikah">Belum Menikah</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                    <label for="exampleFormControlInput1">Jumlah Anak</label>
-                                    <input type="number" class="form-control" name="jumlahanak" id ="jumlahanak" value="<?php echo $e['jumlah_anak'];?>">
-                                    </div>
-                                    
-                                    <input type="submit" class="btn btn-primary btn-sm" value="update data">
-                                    <a href="data_pegawai.php" class="btn btn-danger btn-sm">Batal</a>
-                                </form>
-
-                                <script type = "text/javascript">
-                                    function autoAnak() {
-                                        var status = $('#status').val();
-                                            if (status == 'Belum Menikah'){
-                                                $('#jumlahanak').val(0);
-                                                $('#jumlahanak').prop('readonly', true);
-                                            }else{
-                                                $('#jumlahanak').val();
-                                                $('#jumlahanak').prop('readonly', false);
-                                            }
-                                    }
-                                </script>
-
-                            </div>
-                            
-                            <!-- /.card-body -->
-                            </div>
-
-                        </div>
-                        
-                        </div>
-                        <!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                    </section>
-                    <!-- /.content -->
-                </div>
             <?php
         break;
         }

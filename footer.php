@@ -40,6 +40,8 @@
 <script src="assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- Summernote -->
 <script src="assets/plugins/summernote/summernote-bs4.min.js"></script>
+<script src="assets/plugins/datatables/jquery.dataTables.js"></script>
+<script src="assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- overlayScrollbars -->
 <script src="assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
