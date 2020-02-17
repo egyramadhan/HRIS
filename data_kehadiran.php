@@ -242,24 +242,87 @@
                                                 <input placeholder="masukkan tanggal Akhir" type="date" class="form-control datepicker" name="tgl_akhir">
                                             </div>
                                     </div>
-                                    <input type="submit" value="FILTER">
+                                    <div class = "col-md-4">
+                                        <input type="submit" class="btn btn-primary" value="FILTER">
+                                    </div>
                                 </div>  
                                 </form>
                                 <form class="form-horizontal" method="POST"enctype="multipart/form-data" action="upload_aksi.php?act=insert">
                                             <div class="form-group row">
                                                 <label class="col-sm-1 col-form-label" for="exampleInputFile">File Upload</label>
-                                                <div class="col-sm-2">
-                                                <input type="file" name="berkas_excel" class="form-control" id="exampleInputFile">
-                                                </div>
+                                                    <div class="col-sm-2">
+                                                        <input type="file" name="berkas_excel" class="form-control" id="exampleInputFile">
+                                                    </div>
                                                 <button type="submit" class="btn btn-primary">Import</button>
                                             </div>
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Buat Baru</button>
                                 </form> 
                                 </div>
-                                    
+                                <!-- Modal -->
+                                    <div class="modal fade" id="myModal" role="dialog">
+                                        <div class="modal-dialog">
+                                        
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h4 class="modal-title">Input Absensi</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                            <div class="form-group">
+                                            <form action="aksi_kehadiran.php?act=insert" method="POST">
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlInput1">NIP</label>
+                                                        <select name="nip" id="nip" class="form-control">
+                                                            <option value="">--Pilih--</option>
+                                                            <?php
+                                                                $sqljabatan = mysqli_query($konek, "SELECT * FROM pegawai ORDER BY nip ASC");
+                                                                while ($j = mysqli_fetch_array($sqljabatan)) {
+                                                                    echo "<option value='$j[nip]'>$j[nip]</option>";
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Nama Pegawai</label>
+                                                        <input type="text" class="form-control" id="namapegawai" name="namapegawai" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Tanggal</label>
+                                                        <input placeholder="Tanggal" type="date" class="form-control datepicker" name="tgl">
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Jam Masuk</label>
+                                                        <input type="time" class="form-control datepicker" name="time_masuk">
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Jam Keluar</label>
+                                                        <input type="time" class="form-control datepicker" name="time_keluar">
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Status</label>
+                                                            <select name="status" id="status" class="form-control">
+                                                                <option value="">--Pilih--</option>
+                                                                <option value="P">Hadir</option>
+                                                                <option value="I">Izin</option>
+                                                                <option value="S">Sakit</option>
+                                                                <option value="A">Alpha</option>
+                                                            </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Close</button>
+                                                    <input type="submit" class="btn btn-primary btn-sm" value="Simpan">
+                                                    </div>
+                                            </form>
+                                        </div>
+                                        
+                                        </div>
+                                    </div>
+  
                                 </div>
                                 </div>
                             </form>
-                                
                                     <!-- Main content -->
                                     <section class="content">
                                         <div class="row">
@@ -288,22 +351,33 @@
                                                                 $tgl2 = $_GET['tgl_akhir'];
                                                                 $sql = mysqli_query($konek, "SELECT * FROM  kehadiran WHERE tanggal 
                                                                     BETWEEN '" . $tgl . "' AND  '" . $tgl2 . "'
-                                                                    ORDER BY nip ASC");
+                                                                    ORDER BY nip DESC");
                                                             }else{
                                                                 $sql = mysqli_query($konek,"SELECT * FROM  kehadiran");
                                                             }
 
                                                             $no = 1;
                                                             while ($d = mysqli_fetch_array($sql)) {
+                                                                if($d['statuses'] == 'P'){
+                                                                    $a = "<span class='badge bg-success'>Hadir</span>";
+                                                                } elseif($d['statuses'] == 'A'){
+                                                                    $a = "<span class='badge bg-danger'>Alpha</span>";
+                                                                } elseif($d['statuses'] == 'I'){
+                                                                    $a = "<span class='badge bg-primary'>Izin</span>";
+                                                                } elseif($d['statuses'] == 'S'){
+                                                                    $a = "<span class='badge bg-warning'>Sakit</span>";
+                                                                } 
                                                                echo "<tr>
-                                                                        <td>$no</td>
+                                                                        <td>$no <input type='hidden' class='id_hidden' value='$d[id]'></td>
                                                                         <td>$d[nip]</td>
                                                                         <td>$d[nama_karyawan]</td>
                                                                         <td>$d[tanggal]</td>
                                                                         <td>$d[jam_masuk]</td>
                                                                         <td>$d[jam_keluar]</td>
-                                                                        <td>$d[statuses]</td>
-                                                                        <td><a  class='btn btn-warning btn-sm' href=''>TESS</a>
+                                                                        <td>$a</td>
+                                                                        <td><a  class='btn_edit btn btn-warning btn-sm' data-toggle='modal' data-target='#myModals' href='data_kehadiran.php?view=tambah&id=$d[id]'>Edit data</a>
+                                                                            <a  class='btn_delete btn btn-danger btn-sm' href='aksi_kehadiran.php?act=del&id=$d[id]'>Hapus data</a>
+                                                                            
                                                                         </td>
                                                                </tr>";
                                                                $no++;
@@ -315,7 +389,59 @@
                                                         $(document).ready(function() {
                                                             $('#example').DataTable();
                                                         });
+
+                                                        $(document).ready(function(){
+                                                            $('#nip').change(function(){
+                                                                var anip = $("#nip").val();
+                                                                $.ajax({
+                                                                    url : 'aksi_kehadiran.php',
+                                                                    method : 'post',
+                                                                    data : 'anip=' + anip
+                                                                }).done(function(namapegawai){
+                                                                    getnama = JSON.parse(namapegawai);
+                                                                    console.log(getnama);
+                                                                    $('#namapegawai').val(getnama.nama_pegawai);
+                                                                })
+                                                            })
+                                                        });
+
+                                                        $("#example").on('click','.btn_edit',function(){
+                                                            var curr_row = $(this).closest('tr')
+                                                            let col1 = curr_row.find("td:eq(0) .id_hidden").val()
+                                                            let col2 = curr_row.find("td:eq(1)").text()
+                                                            let col3 = curr_row.find("td:eq(2)").text()
+                                                            let col4 = curr_row.find("td:eq(3)").text()
+                                                            let col5 = curr_row.find("td:eq(4)").text()
+                                                            let col6 = curr_row.find("td:eq(5)").text()
+                                                            let col7 = curr_row.find("td:eq(6)").text()
+                                                            console.log(col1);
+                                                            $("#id_hidden2").val(col1);
+                                                            $("#nip2").val(col2);
+                                                            $("#namapegawai2").val(col3);
+                                                            $("#tgl2").val(col4);
+                                                            $("#time_masuk2").val(col5);
+                                                            $("#time_keluar2").val(col6);
+                                                            switch (col7) {
+                                                                case "Sakit":
+                                                                    col7 = "S"
+                                                                    break;
+                                                                case "Izin":
+                                                                    col7 = "I"
+                                                                    break;
+                                                                case "Hadir":
+                                                                    col7 = "P"
+                                                                    break;
+                                                                case "Alpha":
+                                                                    col7 = "A"
+                                                                    break;
+                                                                default:
+                                                                    break;
+                                                            }
+                                                            $("#status2").val(col7);
+                                                            // // $("#mod_delt").modal("show")
+                                                        });
                                                     </script>
+                                                   
                                                     </div>
                                                     <!-- /.card-body -->
                                                 </div>
@@ -335,6 +461,66 @@
                     </section>
                 <!-- /.content -->
                 </div>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModals" role="dialog">
+                                                <div class="modal-dialog">
+                                                
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                <?php
+                                                    $sqlEdit = mysqli_query($konek, "SELECT * FROM kehadiran WHERE id = '$[id]'");
+                                                    $e = mysqli_fetch_array($sqlEdit);
+
+                                                    //  var_dump($e);
+                                                ?>
+                                                    <div class="modal-header">
+                                                    <h4 class="modal-title">Edit Absensi</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    <div class="form-group">
+                                                    <form action="aksi_kehadiran.php?act=update" method="POST">
+                                                        <div class="form-group">
+                                                            <input type="hidden" id="id_hidden2" name="id_hidden2">
+                                                            <label for="exampleFormControlInput1">NIP</label>
+                                                            <input type="number" class="form-control" id="nip2" name="nip2" readonly>
+                                                            </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <label for="exampleFormControlInput1">Nama Pegawai</label>
+                                                                <input type="text" class="form-control" id="namapegawai2" name="namapegawai2" readonly>
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <label for="exampleFormControlInput1">Tanggal</label>
+                                                                <input placeholder="Tanggal" type="date" class="form-control datepicker" id="tgl2" name="tgl2">
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <label for="exampleFormControlInput1">Jam Masuk</label>
+                                                                <input type="time" class="form-control datepicker" id="time_masuk2" name="time_masuk2">
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <label for="exampleFormControlInput1">Jam Keluar</label>
+                                                                <input type="time" class="form-control datepicker" id="time_keluar2" name="time_keluar2">
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <label for="exampleFormControlInput1">Status</label>
+                                                                    <select name="status2" id="status2" class="form-control">
+                                                                        <option value="">--Pilih--</option>
+                                                                        <option value="P">Hadir</option>
+                                                                        <option value="I">Izin</option>
+                                                                        <option value="S">Sakit</option>
+                                                                        <option value="A">Alpha</option>
+                                                                    </select>
+                                                            </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Close</button>
+                                                            <input type="submit" class="btn btn-primary btn-sm" value="Simpan">
+                                                            </div>
+                                                    </form>
+                                                </div>
+                                                </div>
+                                            </div>
             <?php
         break;
             case 'edit':
