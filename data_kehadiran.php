@@ -72,7 +72,10 @@
                                         <div class="col-sm-1">
                                             <button type="submit" class="btn btn-primary">Tampilkan</button>
                                         </div>
-                                        <a href="data_kehadiran.php?view=tambah" class="btn btn-success">Input Kehadiran Karyawan</a>
+                                            <a href="data_kehadiran.php?view=tambah" class="btn btn-success">Input Kehadiran Karyawan</a>
+                                        <div class="col-sm-2">
+                                            <a href="aksi_kehadiran.php?act=perbarui" class="btn btn-warning">Perbarui Data</a>
+                                        </div>
                                     </div>
                                 </div>
                                 </div>
@@ -110,7 +113,6 @@
                                                                 <th>Alpha</th>
                                                                 <th>Lembur</th>
                                                                 <th>Potongan</th>
-                                                                <th>Aksi</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -122,7 +124,37 @@
                                                                 INNER JOIN jabatan ON pegawai.kode_jabatan = jabatan.kode_jabatan
                                                                 WHERE master_gaji.bulan = $bulantahun
                                                                 ORDER BY pegawai.nip ASC");
-                                                            
+
+                                                            $sql = mysqli_query($konek, "SELECT
+                                                            kehadiran.nip AS nip,
+                                                            pegawai.nama_pegawai,
+                                                            jabatan.nama_jabatan,
+                                                            CONCAT(
+                                                              MONTH(kehadiran.tanggal),
+                                                              YEAR(kehadiran.tanggal)
+                                                            ) AS bulan,
+                                                            COUNT(
+                                                              IF (kehadiran.statuses = 'P', 1, NULL)
+                                                            ) AS 'masuk',
+                                                            COUNT(
+                                                              IF (kehadiran.statuses = 'A', 1, NULL)
+                                                            ) AS 'alpha',
+                                                            COUNT(
+                                                              IF (kehadiran.statuses = 'I', 1, NULL)
+                                                            ) AS 'izin',
+                                                            COUNT(
+                                                              IF (kehadiran.statuses = 'S', 1, NULL)
+                                                            ) AS 'sakit'
+                                                          FROM
+                                                            kehadiran
+                                                            INNER JOIN pegawai
+                                                              ON kehadiran.nip = pegawai.nip
+                                                            INNER JOIN jabatan
+                                                              ON pegawai.kode_jabatan = jabatan.kode_jabatan
+                                                          WHERE kehadiran.`tanggal` BETWEEN '2020-02-01' AND '2020-02-30'
+                                                          GROUP BY kehadiran.nip ASC;
+                                                          ");
+
                                                             $no = 1;
                                                             while ($d = mysqli_fetch_array($sql)) {
                                                                 echo "<tr>
@@ -135,10 +167,6 @@
                                                                         <td>$d[alpha]</td>
                                                                         <td>$d[lembur]</td>
                                                                         <td>$d[potongan]</td>
-                                                                        <td><a  class='btn btn-warning btn-sm' href=''>TESS</a>
-                                                                            <a  class='btn btn-warning btn-sm' href=''>TESS</a>
-                                                                            <a  class='btn btn-warning btn-sm' href=''>TESS</a>
-                                                                        </td>
                                                                     </tr>";
                                                                     $no++;
                                                             }
@@ -156,13 +184,15 @@
                                                                 <th>Alpha</th>
                                                                 <th>Lembur</th>
                                                                 <th>Potongan</th>
-                                                                <th>Aksi</th>
                                                             </tr>
                                                         </tfoot>
                                                     </table>
                                                     <script>
                                                         $(document).ready(function() {
-                                                            $('#example').DataTable();
+                                                            $('#example').DataTable({
+                                                                "order": [[ 1, "desc" ]],
+                                                            });
+                                                            
                                                         });
                                                     </script>
                                                     </div>
@@ -387,7 +417,9 @@
                                                     </table>
                                                     <script>
                                                         $(document).ready(function() {
-                                                            $('#example').DataTable();
+                                                            $('#example').DataTable({
+                                                                "order": [[ 1, "desc" ]],
+                                                            });
                                                         });
 
                                                         $(document).ready(function(){

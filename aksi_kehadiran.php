@@ -50,9 +50,6 @@
             }else{
                 $update = mysqli_query($konek, "UPDATE kehadiran SET tanggal='$tanggal', jam_masuk='$jammasuk', jam_keluar= '$jamkeluar', statuses = '$status' 
                                                 WHERE id = '$id'") or die (mysqli_error($konek)); 
-                // $update = mysqli_query($konek, "UPDATE kehadiran SET tanggal='$tanggal', jam_masuk='$jammasuk', jam_keluar= '$jamkeluar',
-                //                         statuses = $status
-                //  WHERE id = '$id'");
 
                 if($update){
                     header('location:data_kehadiran.php?view=tambah&e=sukses');
@@ -66,6 +63,42 @@
                 header('location:data_kehadiran.php?view=tambah&e=sukses');
             }else{
                 header('location:data_kehadiran.php?view=tambah&e=gagal');
+            }
+        }elseif ($_GET['act'] == 'perbarui') {
+            $perbarui = mysqli_query($konek, "SELECT 
+                                                    id,
+                                                    nama_karyawan AS nama,
+                                                    nip AS nip,
+                                                    CONCAT(MONTH(tanggal),
+                                                    YEAR(tanggal)) AS bulan,
+                                                    COUNT(IF (statuses = 'P',1,NULL)) AS 'masuk',
+                                                    COUNT(IF (statuses = 'A',1,NULL)) AS 'alpha',
+                                                    COUNT(IF (statuses = 'I',1,NULL)) AS 'izin',
+                                                    COUNT(IF (statuses = 'S',1,NULL)) AS 'sakit'
+            
+                                                FROM kehadiran
+                                                GROUP BY nama");
+            $data = mysqli_fetch_all($perbarui);
+            
+            foreach ($data as $key => $value) {
+                $check = mysqli_query($konek, "SELECT * FROM master_gaji WHERE bulan = ". $value[3] ." AND nip = ". $value[2]);
+                // $a = mysqli_fetch_all($check);
+                if ($check->num_rows === 0 ) {
+                        $simpan = mysqli_query($konek, "INSERT INTO master_gaji(bulan,nip,masuk,sakit,izin,alpha)
+                                VALUES('$value[3]', '$value[2]', '$value[4]', '$value[5]', '$value[6]', '$value[7]')")or die (mysqli_error($konek));
+ 
+                }
+                
+                // return print_r($check);
+                // $datas = 
+                // if (mysqli_num_rows($datas) === 0) {
+                //     return print_r('awdwa');
+                               // } 
+            }
+            if($simpan){
+                header('location:data_kehadiran.php?e=sukses');
+            }else{
+                header('location:data_kehadiran.php?e=gagal');
             }
         }
     }
