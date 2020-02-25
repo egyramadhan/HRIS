@@ -39,38 +39,26 @@
                                 
                                 <div class="card-body">
                                 <div class="form-group row">
-                                    <label class="col-sm-1 col-form-label">Bulan</label>
-                                        <div class="col-sm-2">
-                                            <select name="bulan" class="form-control">
-                                                <option value="">-- Pilih --</option>
-                                                <option value="01">Januari</option>
-                                                <option value="02">Februari</option>
-                                                <option value="03">Maret</option>
-                                                <option value="04">April</option>
-                                                <option value="05">Mei</option>
-                                                <option value="06">Juni</option>
-                                                <option value="07">Juli</option>
-                                                <option value="08">Agustus</option>
-                                                <option value="09">September</option>
-                                                <option value="10">Oktober</option>
-                                                <option value="11">November</option>
-                                                <option value="12">Desember</option>
-                                            </select>
+                                    <label class="col-sm-1 col-form-label">Tanggal Awal</label>
+                                    <div class="col-sm-2">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                            <input placeholder="masukkan tanggal Awal" type="date" class="form-control datepicker" name="tgl_awal">
                                         </div>
-                                    <label class="col-sm-1 col-form-label">Tahun</label>
+                                    </div>
+                                    <label class="col-sm-1 col-form-label">Tanggal Akhir</label>
                                         <div class="col-sm-2">
-                                            <select name="tahun" class="form-control">
-                                                <option value="">-- Pilih --</option>
-                                                <?php
-                                                    $y = date('Y');
-                                                    for ($i = 2019;$i<$y+1;$i++ ){
-                                                        echo "<option value='$i'>$i</option>";
-                                                    }
-                                                ?>
-                                            </select>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-th"></span>
+                                                </div>
+                                                <input placeholder="masukkan tanggal Akhir" type="date" class="form-control datepicker" name="tgl_akhir">
+                                            </div>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="submit" class="btn btn-primary">Tampilkan</button>
+                                            <input type="submit" class="btn btn-primary" value="FILTER">
                                         </div>
                                             <a href="data_kehadiran.php?view=tambah" class="btn btn-success">Input Kehadiran Karyawan</a>
                                         <div class="col-sm-2">
@@ -80,20 +68,6 @@
                                 </div>
                                 </div>
                             </form>
-                                    <?php
-                                        if((isset($_GET['bulan']) && $_GET['bulan'] != '') && (isset($_GET['tahun']) && $_GET['tahun'] != '')){
-                                            $bulan = $_GET['bulan'];
-                                            $tahun = $_GET['tahun'];
-                                            $bulantahun = $bulan.$tahun;
-                                        }else {
-                                            $bulan = date('m');
-                                            $tahun = date('Y');
-                                            $bulantahun = $bulan.$tahun;
-                                        }
-                                    ?>
-                                    <div class="alert alert-info">
-                                        <strong>Bulan: <?php echo $bulan; ?>, Tahun: <?php echo $tahun; ?></strong>
-                                    </div>
                                     <!-- Main content -->
                                     <section class="content">
                                         <div class="row">
@@ -111,49 +85,75 @@
                                                                 <th>Masuk</th>
                                                                 <th>Izin</th>
                                                                 <th>Alpha</th>
-                                                                <th>Lembur</th>
-                                                                <th>Potongan</th>
+                                                                <th>Sakit</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                         <?php
-                                                            $sql = mysqli_query($konek, "SELECT master_gaji.*, pegawai.nama_pegawai, pegawai.kode_jabatan,
-                                                                jabatan.nama_jabatan
-                                                                FROM master_gaji
-                                                                INNER JOIN pegawai ON master_gaji.nip = pegawai.nip
-                                                                INNER JOIN jabatan ON pegawai.kode_jabatan = jabatan.kode_jabatan
-                                                                WHERE master_gaji.bulan = $bulantahun
-                                                                ORDER BY pegawai.nip ASC");
 
+                                                        if (isset($_GET['tgl_awal'])) {
+                                                            $tgl = $_GET['tgl_awal'];
+                                                            $tgl2 = $_GET['tgl_akhir'];
                                                             $sql = mysqli_query($konek, "SELECT
-                                                            kehadiran.nip AS nip,
-                                                            pegawai.nama_pegawai,
-                                                            jabatan.nama_jabatan,
-                                                            CONCAT(
-                                                              MONTH(kehadiran.tanggal),
-                                                              YEAR(kehadiran.tanggal)
-                                                            ) AS bulan,
-                                                            COUNT(
-                                                              IF (kehadiran.statuses = 'P', 1, NULL)
-                                                            ) AS 'masuk',
-                                                            COUNT(
-                                                              IF (kehadiran.statuses = 'A', 1, NULL)
-                                                            ) AS 'alpha',
-                                                            COUNT(
-                                                              IF (kehadiran.statuses = 'I', 1, NULL)
-                                                            ) AS 'izin',
-                                                            COUNT(
-                                                              IF (kehadiran.statuses = 'S', 1, NULL)
-                                                            ) AS 'sakit'
-                                                          FROM
-                                                            kehadiran
-                                                            INNER JOIN pegawai
-                                                              ON kehadiran.nip = pegawai.nip
-                                                            INNER JOIN jabatan
-                                                              ON pegawai.kode_jabatan = jabatan.kode_jabatan
-                                                          WHERE kehadiran.`tanggal` BETWEEN '2020-02-01' AND '2020-02-30'
-                                                          GROUP BY kehadiran.nip ASC;
-                                                          ");
+                                                                                                kehadiran.nip AS nip,
+                                                                                                pegawai.nama_pegawai,
+                                                                                                jabatan.nama_jabatan,
+                                                                                                CONCAT(
+                                                                                                MONTH(kehadiran.tanggal),
+                                                                                                YEAR(kehadiran.tanggal)
+                                                                                                ) AS bulan,
+                                                                                                COUNT(
+                                                                                                IF (kehadiran.statuses = 'P', 1, NULL)
+                                                                                                ) AS 'masuk',
+                                                                                                COUNT(
+                                                                                                IF (kehadiran.statuses = 'A', 1, NULL)
+                                                                                                ) AS 'alpha',
+                                                                                                COUNT(
+                                                                                                IF (kehadiran.statuses = 'I', 1, NULL)
+                                                                                                ) AS 'izin',
+                                                                                                COUNT(
+                                                                                                IF (kehadiran.statuses = 'S', 1, NULL)
+                                                                                                ) AS 'sakit'
+                                                                                            FROM
+                                                                                                kehadiran
+                                                                                                INNER JOIN pegawai
+                                                                                                ON kehadiran.nip = pegawai.nip
+                                                                                                INNER JOIN jabatan
+                                                                                                ON pegawai.kode_jabatan = jabatan.kode_jabatan
+                                                                                            WHERE kehadiran.`tanggal` BETWEEN '" . $tgl . "' AND  '" . $tgl2 . "'
+                                                                                            GROUP BY kehadiran.nip ASC
+                                                                                            ");
+                                                        }else {
+                                                            $sql = mysqli_query($konek, "SELECT
+                                                                                                kehadiran.nip AS nip,
+                                                                                                pegawai.nama_pegawai,
+                                                                                                jabatan.nama_jabatan,
+                                                                                                CONCAT(
+                                                                                                MONTH(kehadiran.tanggal),
+                                                                                                YEAR(kehadiran.tanggal)
+                                                                                                ) AS bulan,
+                                                                                                COUNT(
+                                                                                                IF (kehadiran.statuses = 'P', 1, NULL)
+                                                                                                ) AS 'masuk',
+                                                                                                COUNT(
+                                                                                                IF (kehadiran.statuses = 'A', 1, NULL)
+                                                                                                ) AS 'alpha',
+                                                                                                COUNT(
+                                                                                                IF (kehadiran.statuses = 'I', 1, NULL)
+                                                                                                ) AS 'izin',
+                                                                                                COUNT(
+                                                                                                IF (kehadiran.statuses = 'S', 1, NULL)
+                                                                                                ) AS 'sakit'
+                                                                                            FROM
+                                                                                                kehadiran
+                                                                                                INNER JOIN pegawai
+                                                                                                ON kehadiran.nip = pegawai.nip
+                                                                                                INNER JOIN jabatan
+                                                                                                ON pegawai.kode_jabatan = jabatan.kode_jabatan
+                                                                                            GROUP BY kehadiran.nip ASC
+                                                                                            ");
+                                                        }
+                                                            
 
                                                             $no = 1;
                                                             while ($d = mysqli_fetch_array($sql)) {
@@ -165,8 +165,8 @@
                                                                         <td>$d[masuk]</td>
                                                                         <td>$d[izin]</td>
                                                                         <td>$d[alpha]</td>
-                                                                        <td>$d[lembur]</td>
-                                                                        <td>$d[potongan]</td>
+                                                                        <td>$d[sakit]</td>
+                                                                        
                                                                     </tr>";
                                                                     $no++;
                                                             }
@@ -182,8 +182,7 @@
                                                                 <th>Masuk</th>
                                                                 <th>Izin</th>
                                                                 <th>Alpha</th>
-                                                                <th>Lembur</th>
-                                                                <th>Potongan</th>
+                                                                <th>Sakit</th>
                                                             </tr>
                                                         </tfoot>
                                                     </table>
