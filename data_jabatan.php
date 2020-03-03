@@ -59,8 +59,8 @@
                                 <td align='center'>$no</td>
                                 <td>$d[kode_jabatan]</td>
                                 <td>$d[nama_jabatan]</td>
-                                <td>$d[gapok]</td>
-                                <td>$d[tunjangan_jabatan]</td>
+                                <td>".buatRp($d['gapok'])."</td>
+                                <td>".buatRp($d['tunjangan_jabatan'])."</td>
                                 <td><a class='btn btn-warning btn-sm' href ='data_jabatan.php?view=edit&id=$d[kode_jabatan]'>Edit</a>
                                     <a class='btn btn-danger btn-sm' href ='aksi_jabatan.php?act=del&id=$d[kode_jabatan]'>Delete</a>
                                 </td>

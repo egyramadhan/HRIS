@@ -427,12 +427,15 @@
                                                                 $.ajax({
                                                                     url : 'aksi_kehadiran.php',
                                                                     method : 'post',
-                                                                    data : 'anip=' + anip
+                                                                    data : {anip : anip}
                                                                 }).done(function(namapegawai){
-                                                                    getnama = JSON.parse(namapegawai);
-                                                                    console.log(getnama);
+                                                                    console.log(namapegawai);
+                                                                    let getnama = JSON.parse(namapegawai);
                                                                     $('#namapegawai').val(getnama.nama_pegawai);
-                                                                })
+                                                                }).fail((xhr,msg,err) => {
+                                                                    console.log(xhr.responseJSON)
+                                                                })     
+            
                                                             })
                                                         });
 

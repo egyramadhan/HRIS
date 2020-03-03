@@ -5,6 +5,7 @@
     }
 
     include "koneksi.php";
+    include "fungsi.php";
 ?>
 
 <!DOCTYPE html>

@@ -8,6 +8,7 @@
     }
 
     if (isset($_POST['anip'])) {
+
         $sqljabatan = mysqli_query($konek, "SELECT * FROM pegawai WHERE nip = ". $_POST['anip']);
         $d = mysqli_fetch_array($sqljabatan);
 

@@ -61,10 +61,10 @@
                                 <td align='center'>$no</td>
                                 <td>$d[kode_golongan]</td>
                                 <td>$d[nama_golongan]</td>
-                                <td>$d[tunjangan_suami_istri]</td>
-                                <td>$d[tunjangan_anak]</td>
-                                <td>$d[uang_makan]</td>
-                                <td>$d[uang_lembur]</td>
+                                <td>".buatRp($d['tunjangan_suami_istri'])."</td>
+                                <td>".buatRp($d['tunjangan_anak'])."</td>
+                                <td>".buatRp($d['uang_makan'])."</td>
+                                <td>".buatRp($d['uang_lembur'])."</td>
                                 <td><a class='btn btn-warning btn-sm' href ='data_golongan.php?view=edit&id=$d[kode_golongan]'>Edit</a>
                                     <a class='btn btn-danger btn-sm' href ='aksi_golongan.php?act=del&id=$d[kode_golongan]'>Delete</a>
                                 </td>

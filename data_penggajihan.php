@@ -129,8 +129,9 @@
                                                                                                         uang_makan AS uangmakan,
                                                                                                         askes,
                                                                                                         (gapok+tunjangan_jabatan+(SELECT tjsi)+(SELECT tjanak)+(SELECT uangmakan)+askes) AS pendapatan,
-                                                                                                        (SELECT pendapatan) AS totalgaji
-                                                                                                    FROM
+                                                                                                        (150000 * COUNT(IF (kehadiran.`statuses` = 'A',1, NULL))) AS potongan,
+                                                                                                        (SELECT pendapatan)-(150000 * COUNT(IF (kehadiran.`statuses` = 'A',1, NULL))) AS totalgaji
+                                                                                                        FROM
                                                                                                         kehadiran
                                                                                                         INNER JOIN pegawai
                                                                                                         ON kehadiran.nip = pegawai.nip
@@ -171,7 +172,8 @@
                                                                                                         uang_makan AS uangmakan,
                                                                                                         askes,
                                                                                                         (gapok+tunjangan_jabatan+(SELECT tjsi)+(SELECT tjanak)+(SELECT uangmakan)+askes) AS pendapatan,
-                                                                                                        (SELECT pendapatan) AS totalgaji
+                                                                                                        (150000 * COUNT(IF (kehadiran.`statuses` = 'A',1, NULL))) AS potongan,
+                                                                                                        (SELECT pendapatan)-(150000 * COUNT(IF (kehadiran.`statuses` = 'A',1, NULL))) AS totalgaji
                                                                                                     FROM
                                                                                                         kehadiran
                                                                                                         INNER JOIN pegawai
@@ -192,15 +194,15 @@
                                                                         <td>$d[nama_golongan]</td>
                                                                         <td>$d[statuses]</td>
                                                                         <td>$d[jumlah_anak]</td>
-                                                                        <td>$d[gapok]</td>
-                                                                        <td>$d[tunjangan_jabatan]</td>
-                                                                        <td>$d[tjsi]</td>
-                                                                        <td>$d[tjanak]</td>
-                                                                        <td>$d[uangmakan]</td>
-                                                                        <td>$d[askes]</td>
-                                                                        <td>$d[pendapatan]</td>
-                                                                        <td>0</td>
-                                                                        <td>$d[totalgaji]</td>
+                                                                        <td>".buatRp($d['gapok'])."</td>
+                                                                        <td>".buatRp($d['tunjangan_jabatan'])."</td>
+                                                                        <td>".buatRp($d['tjsi'])."</td>
+                                                                        <td>".buatRp($d['tjanak'])."</td>
+                                                                        <td>".buatRp($d['uangmakan'])."</td>
+                                                                        <td>".buatRp($d['askes'])."</td>
+                                                                        <td>".buatRp($d['pendapatan'])."</td>
+                                                                        <td>".buatRp($d['potongan'])."</td>
+                                                                        <td>".buatRp($d['totalgaji'])."</td>
                                                                     </tr>";
                                                                     $no++;
                                                             }
