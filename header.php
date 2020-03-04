@@ -145,7 +145,7 @@
               <li class="nav-item">
                 <a href="data_penggajihan.php" class="nav-link">
                   <i class="far fa-edit nav-icon"></i>
-                  <p>Penggajihan</p>
+                  <p>Penggajian</p>
                 </a>
               </li>
           </li>
@@ -167,7 +167,7 @@
               <li class="nav-item">
                 <a href="cetak_laporan_penggajihan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Laporan Penggajihan</p>
+                  <p>Laporan Penggajian</p>
                 </a>
               </li>
               <li class="nav-item">

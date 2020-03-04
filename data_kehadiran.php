@@ -61,9 +61,6 @@
                                             <input type="submit" class="btn btn-primary" value="FILTER">
                                         </div>
                                             <a href="data_kehadiran.php?view=tambah" class="btn btn-success">Input Kehadiran Karyawan</a>
-                                        <div class="col-sm-2">
-                                            <a href="aksi_kehadiran.php?act=perbarui" class="btn btn-warning">Perbarui Data</a>
-                                        </div>
                                     </div>
                                 </div>
                                 </div>
