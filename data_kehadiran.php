@@ -58,9 +58,11 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-1">
-                                            <input type="submit" class="btn btn-primary" value="FILTER">
+                                            <input type="submit" class="btn btn-primary btn-sm" value="FILTER">
                                         </div>
-                                            <a href="data_kehadiran.php?view=tambah" class="btn btn-success">Input Kehadiran Karyawan</a>
+                                        <div class="col-sm-3">
+                                           <a href="data_kehadiran.php?view=tambah" class="btn btn-success btn-sm">Input Kehadiran Karyawan</a>
+                                        </div>
                                     </div>
                                 </div>
                                 </div>

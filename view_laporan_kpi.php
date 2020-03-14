@@ -1,79 +1,64 @@
-<?php include "header.php"; ?>
-
 <?php
-$view = isset($_GET['view']) ? $_GET['view'] : null;
 
-switch ($view) {
-        default:
-        ?>
-            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-            <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-            
-            <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-                <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Laporan Key Performance Indicators</h1>
-                    </div>
-                    </div>
-                </div><!-- /.container-fluid -->
-                </section>
+    session_start();
+    if (isset($_SESSION['login'])) {
+        include 'koneksi.php';
+        include 'fungsi.php';
+    
 
-            <!-- Main content -->
-                <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                    <!-- left column -->
-                    <div class="col-md-12">
-                        <!-- general form elements -->
-                        <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Data KPI Tahun 2020</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form class="form-horizontal" method="get" action="">
-                            <div class="form-group">
-                            
-                            <div class="card-body">
-                            <div class="form-group row">
-                                <a href="view_laporan_kpi.php" class="btn btn-success">Cetak Laporan</a>
-                            </div>
-                            </div>
-                            </div>
-                        </form>
-                                <!-- Main content -->
-                                <section class="content">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="card">
-                                                <!-- /.card-header -->
-                                                <div class="card-body">
-                                                <table id="example" class="table table-bordered table-hover table-responsive" style="width:100%">
-                                                    <thead> 
-                                                        <tr>
-                                                            <th>No</th>
-                                                            <th>NIP</th>
-                                                            <th>Nama Karyawan</th>
-                                                            <th>Januari</th>
-                                                            <th>Februari</th>
-                                                            <th>Maret</th>
-                                                            <th>April</th>
-                                                            <th>Mei</th>
-                                                            <th>Juni</th>
-                                                            <th>Juli</th>
-                                                            <th>Agustus</th>
-                                                            <th>September</th>
-                                                            <th>Oktober</th>
-                                                            <th>November</th>
-                                                            <th>Desember</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <?php
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan KPI</title>
+    <style type="text/css">
+        body{
+            font-family: Monospace;
+        }
+        table{
+            border-collapse: collape;
+        }
+        @media print{
+            .no-print{
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+        <table width="100%">
+        <tr>
+                    <td width="15%"><img src="logo-side.png"></td>
+                    <td><h1>PT. ASCLAR INDONESIA</h1>
+                        <p style="margin-top:-23px;">Jln. Benda atas no.43 RT.7/RW.6,</p>
+                        <p style="margin-top:-12px;">Cilandak Timur, Kec. Ps. Minggu</p>
+                        <p style="margin-top:-14px;">Kota Jakarta Selatan Daerah Khusus Ibukota Jakarta 12560</p>
+                    </td>
+        </tr>
+        </table>
+        <hr>
+        <p>Laporan Data Key performance Indicator Karyawan</p>
+        <table border="1" cellpadding="4" cellspacing="0" width="100%">
+            <tr>
+                <th>No</th>
+                <th>Nip</th>
+                <th>Nama Karyawan</th>
+                <th>Januari</th>
+                <th>Februari</th>
+                <th>Maret</th>
+                <th>April</th>
+                <th>Mei</th>
+                <th>Juni</th>
+                <th>Juli</th>
+                <th>Agustus</th>
+                <th>September</th>
+                <th>Oktober</th>
+                <th>November</th>
+                <th>Desember</th>
+            </tr>
+            <?php
                                                         $sql = mysqli_query($konek, "SELECT
                                                                                     nama_karyawan,
                                                                                     nip,
@@ -117,46 +102,32 @@ switch ($view) {
                                                             $no++;
                                                         }
                                                     ?>
-                                                    </tbody>
-                                                    
-                                                </table>
 
-                                                <script>
-                                                    $(document).ready(function() {
-                                                        $('#example').DataTable({
-                                                        });
-                                                        
-                                                    });
+        </table>
+        <table width="100%">
+            <tr>
+                <td></td>
+                <td width="200px">
+                    <p>Jakarta, <?php echo tgl_indo(date('Y-m-d')); ?>
+                    <br>
+                    Manager HR,
+                </p>
+                <br>
+                <br>
+                <br>
+                <p>________________</p>
+                </td>
+            </tr>
+        </table>
+            
+        
+    <a href="#" class="no-print" onclick="window.print();">print</a>
+    
+</body>
+</html>
 
-                                                </script>
-                                                </div>
-                                                <!-- /.card-body -->
-                                            </div>
-                                        </div>
-                                        <!-- /.col -->
-                                    </div>
-                                <!-- /.row -->
-                                </section>
-                            <!-- /.content -->
-                        </div>
-                        <!-- /.card -->
-                    </div>
-                    <!--/.col (left) -->
-                    </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-                </section>
-            <!-- /.content -->
-            </div>
-        <?php
-    break;
-    case "tambah":
-
-    break;
-    case "edit":
-
-    break;
+<?php
+}else {
+    header('location:login.php');
 }
 ?>
-
-<?php include "footer.php"; ?>

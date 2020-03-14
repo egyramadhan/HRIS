@@ -59,6 +59,7 @@
               $_SESSION['id']                 = $d['idadmin'];
               $_SESSION['username']           = $d['username'];
               $_SESSION['namalengkap']        = $d['namalengkap'];
+              $_SESSION['isadmin']            = $d['isadmin'];
 
               header('Location:./index.php');
             } else {

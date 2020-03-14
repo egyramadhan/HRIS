@@ -73,7 +73,18 @@
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
       <!-- Notifications Dropdown Menu -->
+      <div class="user-panel mt-2 pb-2 mb-2 d-flex">
+        <div class="image">
+          <img src="assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <p><strong>Hi ! </strong><?php echo $_SESSION['namalengkap']; ?></p>
+          <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+      </div>
     </ul>
+    
+    
   </nav>
   <!-- /.navbar -->
 
@@ -89,15 +100,6 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
-      </div>
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -109,6 +111,9 @@
                   <p>Dashboard</p>
                 </a>
               </li>
+          <?php
+              if ($_SESSION['isadmin']) {
+          ?>
           <li class="nav-item">
             <a href="data_user.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -117,6 +122,7 @@
               </p>
             </a>
           </li>
+          <?php }?>
           <li class="nav-item">
             <a href="data_jabatan.php" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>

@@ -1,4 +1,7 @@
-<?php include "header.php" ?>
+<?php include "header.php"; 
+  if ($_SESSION['isadmin']) {
+    
+?>
 
   <?php 
     $view = isset($_GET['view']) ? $_GET['view'] : null;
@@ -247,6 +250,34 @@
     break;
     }
     
+  }else{
+
+  
     
   ?>
+  <div class="content-wrapper" style="min-height: 1589.56px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="error-page">
+        <h2 class="headline text-danger">500</h2>
+
+        <div class="error-content">
+          <h3><i class="fas fa-exclamation-triangle text-danger"></i> <br> Oops! Anda tidak dapat akses modul ini.</h3>
+
+        </div>
+      </div>
+      <!-- /.error-page -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <?php } ?>   
 <?php include "footer.php" ?>
