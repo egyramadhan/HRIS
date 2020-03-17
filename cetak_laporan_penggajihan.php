@@ -15,7 +15,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Penggajian Karyawan</h1>
+                            <h1>Laporan Penggajian Pegawai</h1>
                         </div>
                         </div>
                     </div><!-- /.container-fluid -->
@@ -30,7 +30,7 @@
                             <!-- general form elements -->
                             <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Data Gaji Karyawan</h3>
+                                <h3 class="card-title">Laporan Gaji Pegawai</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
@@ -58,7 +58,10 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-1">
-                                            <input type="submit" class="btn btn-primary btn-sm" value="FILTER">
+                                            <input type="submit" class="btn btn-primary" value="Filter">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <a href="view_laporan_penggajihan.php" class="btn btn-success">Cetak Laporan</a>
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +94,6 @@
                                                                 <th>Pendapatan</th>
                                                                 <th>Potongan</th>
                                                                 <th>Total</th>
-                                                                <th>Aksi</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -204,9 +206,6 @@
                                                                         <td>".buatRp($d['pendapatan'])."</td>
                                                                         <td>".buatRp($d['potongan'])."</td>
                                                                         <td>".buatRp($d['totalgaji'])."</td>
-                                                                        <td>
-                                                                            <a class='btn btn-warning btn-sm' href ='view_slip_salary.php?id=$d[nip]'>Cetak</a>
-                                                                        </td>
                                                                     </tr>";
                                                                     $no++;
                                                             }

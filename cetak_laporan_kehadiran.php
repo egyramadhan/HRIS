@@ -62,7 +62,7 @@ switch ($view) {
                                     <input type="submit" class="btn btn-primary" value="FILTER">
                                 </div>
                                 <div class="col-sm-2">
-                                    <a href="" class="btn btn-success">Cetak Laporan</a>
+                                    <a href="view_laporan_kehadiran.php" class="btn btn-success">Cetak Laporan</a>
                                 </div>
                             </div>
                         </div>
