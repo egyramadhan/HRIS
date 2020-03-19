@@ -13,13 +13,14 @@
             $username = $_POST['username'];
             $password = md5($_POST['password']);
             $namalengkap = $_POST['namalengkap'];
+            $idadmin = $_POST['isadmin'];
+            
 
-            var_dump($password);
             if ($username == '' || $_POST['password'] == '' || $namalengkap == '') {
                 echo "Form anda belum lengkap !";
             }else{
 
-                $simpan = mysqli_query($konek, "INSERT INTO users(username, password, namalengkap)VALUES('$username', '$password', '$namalengkap')");
+                $simpan = mysqli_query($konek, "INSERT INTO users(username, password, namalengkap, isadmin)VALUES('$username', '$password', '$namalengkap', '$idadmin')");
                 if ($simpan) {
                     header('location:data_user.php?e=sukses');
                 }else{
@@ -28,7 +29,7 @@
             }
         }elseif ($_GET['act'] == 'update') {
 
-            $idadmin = $_POST['idadmin'];
+            $idadmin = $_POST['isadmin'];
             $username = $_POST['username'];
             $password = md5($_POST['password']);
             $namalengkap = $_POST['namalengkap'];

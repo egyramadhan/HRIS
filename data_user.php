@@ -128,7 +128,11 @@
                       <label for="exampleFormControlInput1">Nama lengkap</label>
                       <input type="text" class="form-control" name="namalengkap" placeholder="namalengkap">
                     </div>
-                    
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="isadmin" value="1">
+                      <label class="form-check-label">Is Admin</label>
+                    </div>
+                    <br>
                     <input type="submit" class="btn btn-primary btn-sm" value="Simpan" name="simpan">
                     <a href="data_user.php" class="btn btn-danger btn-sm">Batal</a>
                 </form>
