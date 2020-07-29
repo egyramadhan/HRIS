@@ -4,47 +4,47 @@
 $view = isset($_GET['view']) ? $_GET['view'] : null;
 
 switch ($view) {
-    default:
-?>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
-        <div class="content-wrapper">
+        default:
+        ?>
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+            <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+            
+            <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+                <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Laporan Key Performance Indicators</h1>
-                        </div>
+                    <div class="col-sm-6">
+                        <h1>Laporan Key Performance Indicators</h1>
+                    </div>
                     </div>
                 </div><!-- /.container-fluid -->
-            </section>
+                </section>
 
             <!-- Main content -->
-            <section class="content">
+                <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <!-- left column -->
-                        <div class="col-md-12">
-                            <!-- general form elements -->
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Data KPI Tahun 2020</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <!-- form start -->
-                                <form class="form-horizontal" method="get" action="">
-                                    <div class="form-group">
-
-                                        <div class="card-body">
-                                            <div class="form-group row">
-                                                <a href="view_laporan_kpi.php" class="btn btn-success">Cetak Laporan</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                    <!-- left column -->
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Data KPI Tahun 2020</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" method="get" action="">
+                            <div class="form-group">
+                            
+                            <div class="card-body">
+                            <div class="form-group row">
+                                <a href="view_laporan_kpi.php" class="btn btn-success">Cetak Laporan</a>
+                            </div>
+                            </div>
+                            </div>
+                        </form>
                                 <!-- Main content -->
                                 <section class="content">
                                     <div class="row">
@@ -52,29 +52,29 @@ switch ($view) {
                                             <div class="card">
                                                 <!-- /.card-header -->
                                                 <div class="card-body">
-                                                    <table id="example" class="table table-bordered table-hover table-responsive" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>No</th>
-                                                                <th>NIP</th>
-                                                                <th>Nama Karyawan</th>
-                                                                <th>Januari</th>
-                                                                <th>Februari</th>
-                                                                <th>Maret</th>
-                                                                <th>April</th>
-                                                                <th>Mei</th>
-                                                                <th>Juni</th>
-                                                                <th>Juli</th>
-                                                                <th>Agustus</th>
-                                                                <th>September</th>
-                                                                <th>Oktober</th>
-                                                                <th>November</th>
-                                                                <th>Desember</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            $sql = mysqli_query($konek, "SELECT
+                                                <table id="example" class="table table-bordered table-hover table-responsive" style="width:100%">
+                                                    <thead> 
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>NIP</th>
+                                                            <th>Nama Karyawan</th>
+                                                            <th>Januari</th>
+                                                            <th>Februari</th>
+                                                            <th>Maret</th>
+                                                            <th>April</th>
+                                                            <th>Mei</th>
+                                                            <th>Juni</th>
+                                                            <th>Juli</th>
+                                                            <th>Agustus</th>
+                                                            <th>September</th>
+                                                            <th>Oktober</th>
+                                                            <th>November</th>
+                                                            <th>Desember</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php
+                                                        $sql = mysqli_query($konek, "SELECT
                                                                                     nama_karyawan,
                                                                                     nip,
                                                                                     SUM( IF(MONTH(kehadiran.`tanggal`) = 1,IF(kehadiran.`statuses`= 'P',1,0) + IF(kehadiran.`statuses`= 'I',1,0) + IF(kehadiran.`statuses`= 'S',1,0) ,0))/20 * 100 AS jan,
@@ -92,68 +92,70 @@ switch ($view) {
                                                                                 FROM kehadiran
                                                                                 GROUP BY nama_karyawan;
                                                         ");
-                                                            $no = 1;
+                                                        $no = 1;
 
-                                                            while ($d = mysqli_fetch_array($sql)) {
-                                                                echo "
+                                                        while ($d = mysqli_fetch_array($sql)) {
+                                                            echo "
                                                                 <tr>
                                                                     <td align='center'>$no</td>
                                                                     <td>$d[nip]</td>
                                                                     <td>$d[nama_karyawan]</td>
-                                                                    <td>" . percent($d['jan']) . "</td>
-                                                                    <td>" . percent($d['feb']) . "</td>
-                                                                    <td>" . percent($d['mar']) . "</td>
-                                                                    <td>" . percent($d['apr']) . "</td>
-                                                                    <td>" . percent($d['mei']) . "</td>
-                                                                    <td>" . percent($d['jun']) . "</td>
-                                                                    <td>" . percent($d['jul']) . "</td>
-                                                                    <td>" . percent($d['ags']) . "</td>
-                                                                    <td>" . percent($d['sep']) . "</td>
-                                                                    <td>" . percent($d['okt']) . "</td>
-                                                                    <td>" . percent($d['nov']) . "</td>
-                                                                    <td>" . percent($d['des']) . "</td>
+                                                                    <td>".percent($d['jan'])."</td>
+                                                                    <td>".percent($d['feb'])."</td>
+                                                                    <td>".percent($d['mar'])."</td>
+                                                                    <td>".percent($d['apr'])."</td>
+                                                                    <td>".percent($d['mei'])."</td>
+                                                                    <td>".percent($d['jun'])."</td>
+                                                                    <td>".percent($d['jul'])."</td>
+                                                                    <td>".percent($d['ags'])."</td>
+                                                                    <td>".percent($d['sep'])."</td>
+                                                                    <td>".percent($d['okt'])."</td>
+                                                                    <td>".percent($d['nov'])."</td>
+                                                                    <td>".percent($d['des'])."</td>
                                                                 </tr>
                                                             ";
-                                                                $no++;
-                                                            }
-                                                            ?>
-                                                        </tbody>
+                                                            $no++;
+                                                        }
+                                                    ?>
+                                                    </tbody>
+                                                    
+                                                </table>
 
-                                                    </table>
-
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            $('#example').DataTable({});
-
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        $('#example').DataTable({
                                                         });
-                                                    </script>
+                                                        
+                                                    });
+
+                                                </script>
                                                 </div>
                                                 <!-- /.card-body -->
                                             </div>
                                         </div>
                                         <!-- /.col -->
                                     </div>
-                                    <!-- /.row -->
+                                <!-- /.row -->
                                 </section>
-                                <!-- /.content -->
-                            </div>
-                            <!-- /.card -->
+                            <!-- /.content -->
                         </div>
-                        <!--/.col (left) -->
+                        <!-- /.card -->
+                    </div>
+                    <!--/.col (left) -->
                     </div>
                     <!-- /.row -->
                 </div><!-- /.container-fluid -->
-            </section>
+                </section>
             <!-- /.content -->
-        </div>
-<?php
-        break;
+            </div>
+        <?php
+    break;
     case "tambah":
 
-        break;
+    break;
     case "edit":
 
-        break;
+    break;
 }
 ?>
 

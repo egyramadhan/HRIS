@@ -42,7 +42,7 @@
           $p = md5($pass);
 
           if ($user == '' || $pass == '') {
-        ?>      
+        ?>
             <div class="swalDefaultWarning"></div>
 
             <?php
@@ -51,10 +51,10 @@
             $sqllogin = mysqli_query($konek, "SELECT * FROM users WHERE username = '$user' AND password = '$p'");
             $d = mysqli_fetch_array($sqllogin);
             $jml = mysqli_num_rows($sqllogin);
-            
+
             // var_dump($sqllogin);
             if ($jml > 0) {
-              
+
               $_SESSION['login']              = TRUE;
               $_SESSION['id']                 = $d['idadmin'];
               $_SESSION['username']           = $d['username'];
@@ -108,9 +108,9 @@
         </form>
 
         <div class="social-auth-links text-center mb-3">
-          <a href="#" class="btn btn-block btn-warning">
+          <!-- <a href="#" class="btn btn-block btn-warning">
             Lupa kata sandi
-          </a>
+          </a> -->
         </div>
         <!-- /.social-auth-links -->
       </div>
