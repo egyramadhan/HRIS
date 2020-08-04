@@ -198,7 +198,6 @@ if (isset($_SESSION['login'])) {
             </tr>
         </table>
 
-
         <a href='#' class='no-print' onclick='window.print();'>print</a>
 
     </body>
